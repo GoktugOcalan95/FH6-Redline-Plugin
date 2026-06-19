@@ -1,0 +1,23 @@
+{
+  "ScreenCount": 1.0,
+  "InGameScreensIndexs": [
+    0
+  ],
+  "IdleScreensIndexs": [
+    0
+  ],
+  "MainPreviewIndex": 0,
+  "IsOverlay": true,
+  "OverlaySizeWarning": false,
+  "MetadataVersion": 2.0,
+  "EnableOnDashboardMessaging": true,
+  "PitScreensIndexs": [],
+  "SimHubVersion": "9.11.17",
+  "Category": null,
+  "Title": "FH6 Shift Lights MPH",
+  "Description": null,
+  "Author": null,
+  "Width": 980.0,
+  "Height": 260.0,
+  "DashboardVersion": ""
+}

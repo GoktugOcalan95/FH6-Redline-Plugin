@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>FH6Redline</AssemblyName>
+    <RootNamespace>FH6Redline</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+    <UseWPF>false</UseWPF>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Deterministic>true</Deterministic>
+
+    <!-- Path to the SimHub install (the folder that contains SimHubWPF.exe).
+         Set the SIMHUB_INSTALL_PATH env var, or just edit the fallback below.
+         Keep the trailing backslash. -->
+    <SimHubPath Condition="'$(SimHubPath)' == ''">$(SIMHUB_INSTALL_PATH)</SimHubPath>
+    <SimHubPath Condition="'$(SimHubPath)' == ''">C:\Program Files (x86)\SimHub\</SimHubPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="GameReaderCommon">
+      <HintPath>$(SimHubPath)GameReaderCommon.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SimHub.Plugins">
+      <HintPath>$(SimHubPath)SimHub.Plugins.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- Drop the built DLL straight into SimHub after each build.
+       Close SimHub first - it locks loaded plugin DLLs while running. -->
+  <Target Name="DeployToSimHub" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SimHubPath)" />
+  </Target>
+
+</Project>

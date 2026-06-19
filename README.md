@@ -15,13 +15,15 @@ There is also a MPH version of the overlay included.
 
 ![FH6 Shift Lights overlay](DashTemplates/FH6%20Shift%20Lights/FH6%20Shift%20Lights.djson.png)
 
+Overlay hides itself if the rpms are near the engine's idle rpm and the speed is below 20 kmh.
+
 ## Plugin Properties
 
 Exposed under the `FH6Redline.` prefix:
 
 | Property | Type | Meaning |
 |---|---|---|
-| `MaxUsableRpm` | int | Shift point: rev-out average minus the 75 RPM offset. 0 until the first rev-out. |
+| `MaxUsableRpm` | int | Shift point: Calculated max usable rpm for the engine. 0 until the first rev-out. |
 | `RevLimiterProximity` | double | 0 → 1 as RPM approaches `MaxUsableRpm`. Window scales by gear. |
 | `CurrentCarKey` | string | Identifier for the active car/tune. |
 

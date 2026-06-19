@@ -8,7 +8,14 @@ engine holds before the limiter starts bouncing. The reported redline is higher 
 point, and the values reported during bouncing are higher still. The plugin finds the onset
 of bouncing and ignores the rest.
 
-## Properties
+## Overlay
+
+Included in the release is an overlay that displays the shift lights, current gear, speed and rpms.
+There is also a MPH version of the overlay included.
+
+![FH6 Shift Lights overlay](DashTemplates/FH6%20Shift%20Lights/FH6%20Shift%20Lights.djson.png)
+
+## Plugin Properties
 
 Exposed under the `FH6Redline.` prefix:
 

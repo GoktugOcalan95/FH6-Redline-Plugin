@@ -19,7 +19,7 @@ namespace FH6Redline
         private const double DropFraction       = 0.004;  // ...or this fraction of MaxRpm, whichever is larger
         private const double ReArmFraction      = 0.85;   // rpm below peak*this starts a new climb
         private const int    SampleCount        = 5;      // rev-outs averaged before locking
-        private const int    RpmOffset          = 75;     // subtracted from the average to get the shift point
+        private const int    RpmOffset          = 100;     // subtracted from the average to get the shift point
         private const string StoreKey           = "Cars";
 
         // Per-gear proximity window. Low gears rev out fast, so a wider window keeps the shift

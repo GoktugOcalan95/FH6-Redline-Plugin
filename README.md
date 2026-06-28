@@ -23,7 +23,7 @@ Exposed under the `FH6Redline.` prefix:
 
 | Property | Type | Meaning |
 |---|---|---|
-| `MaxUsableRpm` | int | Shift point: Calculated max usable rpm for the engine. 0 until the first rev-out. |
+| `MaxUsableRpm` | int | Shift point for the current gear. 0 until the first rev-out. |
 | `RevLimiterProximity` | double | 0 → 1 as RPM approaches `MaxUsableRpm`. Window scales by gear. |
 | `CurrentCarKey` | string | Identifier for the active car/tune. |
 
@@ -35,6 +35,9 @@ Exposed under the `FH6Redline.` prefix:
 - After 5 samples the shift point is locked and saved as `carKey → rpm`. A known car key is
   loaded from file and not recalculated.
 - The shift point is the sample average minus a fixed 75 RPM offset.
+- A per-gear trim is applied when the shift point is used (the stored value is unchanged):
+  gears 1-2 subtract 25 RPM to shift a little earlier, gears 5+ add 25 RPM to rev a little
+  higher, and gears 3-4 use the value as-is.
 - Proximity uses a fixed per-gear window so the shift LEDs stay lit for a similar duration in
   every gear — wide in low gears, narrow in high gears.
 

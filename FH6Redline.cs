@@ -19,13 +19,15 @@ namespace FH6Redline
         private const double DropFraction       = 0.004;  // ...or this fraction of MaxRpm, whichever is larger
         private const double ReArmFraction      = 0.85;   // rpm below peak*this starts a new climb
         private const int    SampleCount        = 5;      // rev-outs averaged before locking
-        private const int    RpmOffset          = 100;     // subtracted from the average to get the shift point
+        private const int    RpmOffset          = 75;     // subtracted from the average to get the shift point
+        private const int    LowGearRpmOffset   = 25;     // gears 1-2: shift a little earlier (more conservative)
+        private const int    HighGearRpmBonus   = 25;     // gears 5+: allowed to rev a little higher
         private const string StoreKey           = "Cars";
 
         // Per-gear proximity window. Low gears rev out fast, so a wider window keeps the shift
         // LEDs lit for a similar real-time duration across all gears. Index = gear (1..10).
         private static readonly double[] GearWindow =
-            { 0.40, 0.40, 0.30, 0.20, 0.12, 0.10, 0.08, 0.08, 0.08, 0.08, 0.08 };
+            { 0.50, 0.50, 0.35, 0.24, 0.16, 0.12, 0.10, 0.08, 0.08, 0.08, 0.08 };
 
         // ---- state -----------------------------------------------------------------------
         private CarStore _store;
@@ -77,7 +79,7 @@ namespace FH6Redline
                 else { _peak = 0; _committed = false; }
             }
 
-            int shift = CurrentShift();
+            int shift = GearAdjust(CurrentShift(), nd.Gear);
             _outRpm = shift;
             _outProx = Proximity(rpm, shift, GearWindow[GearIndex(nd.Gear)]);
         }
@@ -141,6 +143,17 @@ namespace FH6Redline
             if (g < 1) g = 1;
             if (g > 10) g = 10;
             return g;
+        }
+
+        // Per-gear trim applied at use time only; the learned/stored value is never changed.
+        // Gears 1-2 shift a little earlier, gears 5+ a little later, gears 3-4 use the value as-is.
+        private static int GearAdjust(int shift, string gear)
+        {
+            if (shift <= 0) return shift;
+            int g = GearIndex(gear); // R / N / D fall back to gear 1
+            if (g <= 2) return shift - LowGearRpmOffset;
+            if (g >= 5) return shift + HighGearRpmBonus;
+            return shift; // gears 3 and 4
         }
 
         // Car key = CarOrdinal_CarPerformanceIndex_MaxRpm. The two raw values come from SimHub's

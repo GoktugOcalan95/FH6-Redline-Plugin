@@ -20,4 +20,6 @@ Thumbs.db
  
 # SimHub dashboard edit-history backups (per-dashboard, pure churn)
 _Backups/
- 
+
+# Ignore release packages
+*.zip
